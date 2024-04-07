@@ -3,7 +3,11 @@ package guru.springframework.spring6webapp.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Author {
@@ -13,7 +17,8 @@ public class Author {
     private String firstName;
     private String lastName;
     @ManyToMany(mappedBy="authors")
-    private Set<Book> books;
+    //    set initial value to resolve null error
+    private Set<Book> books = new HashSet<>();
 
     public Set<Book> getBooks() {
         return books;
@@ -60,7 +65,15 @@ public class Author {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Author author)) return false;
+        if (!(o instanceof Author )) return false;
+//        if (!(o instanceof Author author)) return false;
+
+//        Course author code has this line below and need to remove "author"
+        // from line above to match course author code.
+        // initially getting a null error until I changed my code to match his code.
+        Author author = (Author) o;
+
+
 
         return getId() != null ? getId().equals(author.getId()) : author.getId() == null;
     }
